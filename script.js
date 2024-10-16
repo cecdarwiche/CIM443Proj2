@@ -3,9 +3,11 @@ let spinButton = document.querySelector('.spinButton');
 let display = document.querySelector('.display');
 let segmentForm = document.getElementById('segmentForm');
 let inputValues = document.getElementById('inputValues');
-let zoneSize;  // Will calculate later based on user input
+const textContainer = document.getElementById('colorChange');
 
-let val = Math.ceil(Math.random() * 3600);
+
+//random value for wheel spins
+let val = Math.ceil(Math.random() * (3600 - 0) + 0) + 720;
 
 const colors = [
     'pink',
@@ -22,15 +24,23 @@ const colors = [
 segmentForm.addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent form refresh
 
-    // Get the input values from the user
-    let userInput = inputValues.value.split(',').map(Number);
+// Get the input values from the user
+    let userInput = [
+        Number(document.getElementById('inputValue1').value),
+        Number(document.getElementById('inputValue2').value),
+        Number(document.getElementById('inputValue3').value),
+        Number(document.getElementById('inputValue4').value),
+        Number(document.getElementById('inputValue5').value),
+        Number(document.getElementById('inputValue6').value),
+        Number(document.getElementById('inputValue7').value),
+        Number(document.getElementById('inputValue8').value)
+    ].filter(value => !isNaN(value));
+
+
     
     // Clear the wheel before generating new segments
     wheel.innerHTML = '';
     
-    // Calculate zone size (each segment will occupy an equal portion)
-    zoneSize = 360 / userInput.length;
-
     // Dynamically generate wheel segments based on user input
     userInput.forEach((value, index) => {
         let segmentDiv = document.createElement('div');
@@ -57,10 +67,6 @@ segmentForm.addEventListener('submit', function (event) {
 //new now 
 let currentDeg = 0; 
 
-function calcWinner(val){
-
-}
-
 // Spin wheel function
 function spinWheel() {
     if (!segments.length) {
@@ -71,51 +77,62 @@ function spinWheel() {
     // Spin the wheel
     wheel.style.transform = "rotate(" + val + "deg)";
     
+    /*
     //new now: ___________________________
     let toBeDeg = val + currentDeg; //calculate where degree will be
+    console.log("tobeDeg: " + toBeDeg);
+    console.log("currentDeg: " + currentDeg);
     let calcDeg = toBeDeg/360; 
+    console.log("calcDeg: " + calcDeg);
     let subVal = (Math.floor(calcDeg))*360; //how many full spins the val gave
+    console.log("subVal: " + subVal);
     let sub = toBeDeg - subVal; //calc actual current degree after full spins
+    console.log("sub: " + sub);
     currentDeg += sub; //update current degree with the new values 
+    console.log("updated currentDeg: " + currentDeg);
+
+    //SPIN WHEEL
+    wheel.style.transform = "rotate(" + toBeDeg + "deg)";
+
+
+    if(currentDeg > 360){
+        currentDeg -= 360; 
+        console.log("updated currentDeg: " + currentDeg);
+    }
 
     let winningVal; 
 
-    //alert(val);
-    //alert(currentDeg);
 
-    if(338 <= currentDeg < 23){ //section 1
+    if( (currentDeg >= 0 && currentDeg < 23) || (currentDeg >= 338 && currentDeg <= 360)){ //section 1
         winningVal = segments[0].value; 
-    } else if(23 <= currentDeg < 68){ //section 2
+        console.log(currentDeg);
+        console.log("cell 1"); 
+    } else if(currentDeg >= 23 && currentDeg < 68){ //section 2
         winningVal = segments[1].value; 
-    } else if(68 <= currentDeg < 113){ //section 3
+        console.log(currentDeg);
+    } else if(currentDeg >= 68 && currentDeg < 113){ //section 3
         winningVal = segments[2].value; 
-    }else if(113 <= currentDeg < 158){ //section 4
-        winningVal = segments[3].value; 
-    }else if(158 <= currentDeg < 203){ //section 5
+        console.log(currentDeg);
+    }else if(currentDeg >= 113 && currentDeg < 158){ //section 4
+        winningVal = segments[3].value;
+        console.log(currentDeg); 
+    }else if(currentDeg >= 158 && currentDeg < 203){ //section 5
         winningVal = segments[4].value; 
-    }else if(203 <= currentDeg < 248){ //section 6
+        console.log(currentDeg);
+    }else if(currentDeg >= 203 && currentDeg < 248){ //section 6
         winningVal = segments[5].value; 
-    }else if(248 <= currentDeg < 293){ //section 7
+        console.log(currentDeg);
+    }else if(currentDeg >= 248 && currentDeg < 293){ //section 7
         winningVal = segments[6].value; 
-    }else if(293 <= currentDeg < 338){ //section 8
+        console.log(currentDeg);
+    }else if(currentDeg >= 293 && currentDeg < 338){ //section 8
         winningVal = segments[7].value; 
+        console.log(currentDeg);
     }
 
    
     display.innerHTML = "You landed on: " + winningVal;
 
-    //__________________________________
-
-    /*
-    // Calculate the angle and determine the winning segment
-    const actualDeg = val % 360;
-    const winningIndex = Math.floor(actualDeg / zoneSize);
-    
-    // Get the winning value from user input
-    const winningValue = segments[winningIndex].value;
-
-    // Display the result
-    display.innerHTML = "You landed on: " + winningValue;
     */
 
     // Increment the spin value for the next spin
@@ -124,4 +141,43 @@ function spinWheel() {
 
 // Spin button click event
 spinButton.onclick = spinWheel;
+
+
+//CHANGE TEXT TO RANDOM COLORS ---------------------------------------------------
+
+const text = textContainer.innerText;
+textContainer.innerHTML = '';
+
+// Split the text into individual letters and wrap each in a span
+for (let letter of text) {
+    const span = document.createElement('span');
+    span.classList.add('letter');
+    span.innerText = letter;
+    textContainer.appendChild(span);
+}
+
+let colorNum = 0; 
+
+// Function to randomly assign colors to each letter
+function changeLetterColors() {
+    const letters = document.querySelectorAll('.letter'); 
+
+    colorNum++; //reset color number each time the interval refreshes
+    letters.forEach(letter => {
+        letter.style.color = colors[colorNum];
+        colorNum++;
+
+        if(colorNum > 8){
+            colorNum = 0;
+        }
+    });
+}
+
+// Change the letter colors every 2 seconds
+setInterval(changeLetterColors, 300);
+
+// Call the function once to apply the initial colors
+changeLetterColors();
+
+
 

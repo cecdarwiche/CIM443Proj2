@@ -3,24 +3,24 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
 }
 
 body{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background: #333
+    background: whitesmoke;
 }
 
 h1{
     text-align: center;
-    color: whitesmoke;
+    color: #333;
 }
 
 h3{
-    color: lightgrey;
+    color: #333;
     text-align: center;
 }
+
 
 .input-section {
     text-align: center;
@@ -29,15 +29,20 @@ h3{
 
 input {
     padding: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
     margin-right: 10px;
-    border: 1px solid #ccc;
+    border: 1.5px solid #333;
     border-radius: 4px;
 }
 
 button {
-    padding: 10px;
-    background-color: #555;
-    color: white;
+    padding: 10px; 
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: whitesmoke;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -134,3 +139,11 @@ button {
     font-weight: 500;
 
 }
+
+
+.letter {
+    display: inline-block;
+    font-size: 1.5em;
+    transition: color 0.2s ease; /* Smooth transition between colors */
+}
+
